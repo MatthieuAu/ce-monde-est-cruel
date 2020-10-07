@@ -26,18 +26,32 @@ class RodiaPlayer extends Player
         return 0;
     }
 
-    public function findPattern($array) {
-        $lastthree = array_slice($array, -1, 3);
+    public function getCounter($play) {
+
+        $plays = ["rock", "scissors", "paper"];
+        $counters = ["paper", "rock", "scissors"];
+        return $counters[$this->getFirstIndex($plays, $play)];
+
+    }
+
+    public function iscountering() {
+        $myallchoices = $this->result->getChoicesFor($this->mySide);
+        $opoallchoices = $this->result->getChoicesFor($this->opponentSide);
+
+        if ($myallchoices == []) 
+        {
+            return false;
+        }
+
+        $myplay = array_slice($myallchoices, -2)[0];
+        $opolay = array_slice($opoallchoices, -1)[0];
+
         $score = 0;
-
-        
-            
+        if ($this->getCounter($myplay) == $opolay){
+            return true;
+        }
+        return false;
     }
-
-    public function rockFirst() {
-
-    }
-
 
     public function getChoice()
     {
@@ -49,16 +63,17 @@ class RodiaPlayer extends Player
         $triplecounter = [parent::rockChoice(), parent::scissorsChoice(), parent::paperChoice()];
 
         $lastchoiceopo = $this->result->getLastChoiceFor($this->opponentSide);
+        $mylastchoice = $this->result->getLastChoiceFor($this->mySide);
         $mylastscore =  $this->result->getLastScoreFor($this->mySide);
         
         $myallchoices = $this->result->getChoicesFor($this->mySide);
         $opoallchoices = $this->result->getChoicesFor($this->opponentSide);
         
-        if ($mylastscore < 0) 
-        {
-            return $counterfunction[$this->getFirstIndex($plays, $lastchoiceopo)];
+
+        if ($this->iscountering() === true) {
+            return $doublecounter[$this->getFirstIndex($plays, $mylastchoice)];
         }
-        return $doublecounter[$this->getFirstIndex($plays, $lastchoiceopo)];
+        return $counterfunction[$this->getFirstIndex($plays, $lastchoiceopo)];
 
     }
 };
