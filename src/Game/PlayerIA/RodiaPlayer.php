@@ -38,7 +38,7 @@ class RodiaPlayer extends Player
         $myallchoices = $this->result->getChoicesFor($this->mySide);
         $opoallchoices = $this->result->getChoicesFor($this->opponentSide);
 
-        if (count($myallchoices) <= 5) 
+        if (count($myallchoices) <= 3) 
         {
             return false;
         }
