@@ -23,6 +23,10 @@ class RodiaPlayer extends Player
         {
             return parent::paperChoice();
         }
+        elseif ($lastopo == "paper")
+        {
+            return parent::scissorsChoice();
+        }
         return parent::rockChoice();
 
     }
